@@ -402,7 +402,7 @@ out_prob_secondary = np.mean(out_probability_secondary_user, axis=0) # Outage pr
 print(&#39;Outage probability system:&#39;, out_prob_mean)
 
 #Saving outage probability values in .txt
-#print(&#39;Outage probability system:&#39;, out_prob_mean, &#39;\n\nOutage probability primary user:&#39;, out_prob_primary, &#39;\n\nOutage probability secondary user:&#39;, out_prob_secondary, file=open(&#34;pa-uav-noma/outage_prob_values.txt&#34;, &#34;w&#34;))
+#print(&#39;Outage probability system:&#39;, out_prob_mean, &#39;\n\nOutage probability primary user:&#39;, out_prob_primary, &#39;\n\nOutage probability secondary user:&#39;, out_prob_secondary, file=open(&#34;pauavnoma/outage_prob_values.txt&#34;, &#34;w&#34;))
 
 
 # Achievable Rate 
@@ -413,10 +413,10 @@ print(&#39;Average Achievable Rate of the System:&#39;, average_rate_mean)
 
 
 # Saving achievable rate values in .txt
-#print(&#39; Average Achievable Rate of the System:&#39;, average_rate_mean, &#39;\n\nAverage achievable rate of the Primary User:&#39;, rate_mean_primary_user, &#39;\n\nAverage achievable rate of the Secondary User:&#39;, rate_mean_secondary_user, file=open(&#34;pa-uav-noma/achievable_rate_values.txt&#34;, &#34;w&#34;))
+#print(&#39; Average Achievable Rate of the System:&#39;, average_rate_mean, &#39;\n\nAverage achievable rate of the Primary User:&#39;, rate_mean_primary_user, &#39;\n\nAverage achievable rate of the Secondary User:&#39;, rate_mean_secondary_user, file=open(&#34;pauavnoma/achievable_rate_values.txt&#34;, &#34;w&#34;))
 
 # To plot the figures, the comments below need to be removed.
-&#39;&#39;&#39;
+
 
 plt.semilogy(snr_dB, out_prob_mean, &#39;go-&#39;, label=&#34;System&#34;, linewidth=2)
 plt.semilogy(snr_dB, out_prob_primary, &#39;b.-&#39;, label=&#34;Primary user&#34;, linewidth=1)
@@ -448,9 +448,7 @@ plt.ylabel(&#39;Achievable rate (bits/s/Hz)&#39;)
 plt.legend(loc=&#34;upper left&#34;)
 
 
-plt.show()
-
-&#39;&#39;&#39;</code></pre>
+plt.show()</code></pre>
 </details>
 </section>
 <section>
