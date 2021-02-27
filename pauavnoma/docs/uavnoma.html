@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.2" />
 <title>uavnoma API documentation</title>
-<meta name="description" content="Numerical Simulation of Power allocation in UAV-NOMA System …" />
+<meta name="description" content="Numerical Simulation of UAV-NOMA System under non-ideal conditions …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,7 +22,7 @@
 <h1 class="title">Module <code>uavnoma</code></h1>
 </header>
 <section id="section-intro">
-<p>Numerical Simulation of Power allocation in UAV-NOMA System.</p>
+<p>Numerical Simulation of UAV-NOMA System under non-ideal conditions.</p>
 <p>A Python 3.9 implementation of a model of wireless communication
 system between an area base station and two users.
 Initially, power allocation is employed manually.</p>
@@ -72,6 +72,8 @@ using: <code>ch_coeff=np.sqrt((np.random.normal(s,sigma)**2) + 1j*(np.random.nor
 <li><code>sigma</code> (float) : Standard deviation of Rician distribution, obtained by <code>sigma = P_los/sqrt(2*(K+1))</code>.</li>
 <li><code>h_n</code> (array of float, size(N_users)) : channel coefficients over distance effects.</li>
 <li><code>channelGain</code> (array of float, size(N_users)) : channel gain <code>abs(h_n)^2</code> sorted in descending order (primary user &gt; secondary user).</li>
+<li><code>coeffHard</code>(float) : Residual Hardware Impairment coefficient.</li>
+<li><code>coeffSic</code> (float) : Sucessice Interference Cancelation coefficient.</li>
 </ul>
 <hr>
 <h2 id="performance-analysis-metrics">Performance analysis metrics</h2>
@@ -87,7 +89,7 @@ consists of the average throughput of all network users.</p>
 </li>
 </ul>
 <p>To plot the figures, run:</p>
-<pre><code>$ python plot_figures.py
+<pre><code>$ python plotFigures.py
 </code></pre>
 <hr>
 <details class="source">
@@ -98,7 +100,7 @@ consists of the average throughput of all network users.</p>
 # -*- coding: utf-8 -*-
 
 &#34;&#34;&#34; 
-   Numerical Simulation of Power allocation in UAV-NOMA System.
+   Numerical Simulation of UAV-NOMA System under non-ideal conditions.
    
    A Python 3.9 implementation of a model of wireless communication 
    system between an area base station and two users. 
@@ -153,10 +155,13 @@ class valuesGen:
         radius_value_uav = 1.0  # Fly trajectory of the UAV in meters
         radius_value_user = 2.0  # Distribution radius of users in the cell in meters.
         # Users&#39; Target Rate
-        rate_value_primary_user = 1.0  # Target rate bits/s/Hertz  primary user
+        rate_value_primary_user = 0.5  # Target rate bits/s/Hertz  primary user
         rate_value_secondary_user = 0.5  # Target rate bits/s/Hertz  secondary users
-        snr_values_dB = np.array(range(10, 51, 2))  # SNR in dB
+        snr_values_dB = np.array(range(10, 41, 2))  # SNR in dB
         snr_values_linear = 10 ** (snr_values_dB / 10)  # SNR linear
+
+        coeffHard = 0.05 # Residual Hardware Impairments
+        coeffSic = 0.05  # Residual Imperfect SIC
 
         return (
             samples_mc,
@@ -171,6 +176,8 @@ class valuesGen:
             radius_value_user,
             rate_value_primary_user,
             rate_value_secondary_user,
+            coeffHard,
+            coeffSic,
         )
 
     def generate_power_coeff(n_users):
@@ -191,9 +198,9 @@ class valuesGen:
             &#34;WARNING: The sum of powers must be: [0 &lt;sum(power) &lt;= 1], \n AND the power of the primary user must be greater than that of the secondary in order for their QoS to be satisfied. E.g. user_1 = 0.8 and user_2 =0.2.\n&#34;
         )
         # (&#39;Enter the value of power coefficient allocation of the Primary User:  &#39;)
-        data_power_Pri = 0.8  # float(input(&#39;--&gt; &#39;))
+        data_power_Pri = 0.6  # float(input(&#39;-&gt; &#39;))
         # (&#39;Enter the value of power coefficient allocation of the Secondart User:  &#39;)
-        data_power_Sec = 0.2  # float(input(&#39;--&gt; &#39;))
+        data_power_Sec = 0.4  # float(input(&#39;--&gt; &#39;))
 
         return data_power_Pri, data_power_Sec
 
@@ -222,7 +229,7 @@ class valuesGen:
         rho_r = radiusUAV
         x_r = rho_r * np.cos(theta_r)
         y_r = rho_r * np.sin(theta_r)
-        z_r = 30.0
+        z_r = 20.0
         return x_r, y_r, z_r
 
     def random_position_users(numberUsers, radiusUser):
@@ -315,7 +322,7 @@ class valuesGen:
         return channelGain
 
     def calculate_instantaneous_rate_primary(
-        channelPri, channelSec, snrValues, powerPrimary, powerSecondary, target_RatePri
+        channelPri, channelSec, snrValues, powerPrimary, powerSecondary, target_RatePri, coeffHard, coeffSic,
     ):
         &#34;&#34;&#34;Returns the instantaneous achievable rate of the primary user for all values of SNR in dB.
 
@@ -351,20 +358,20 @@ class valuesGen:
         for sn in range(0, len(snrValues)):
 
             sinr_primary[sn] = (snrValues[sn] * channelPri * powerPrimary) / (
-                snrValues[sn] * channelSec * powerSecondary + 1
+                snrValues[sn] * channelSec * ( powerSecondary + coeffHard**2  ) + 1
             )
             inst_rate_primary[sn] = np.log(
                 1 + sinr_primary[sn]
             )  # Instantaneous achievable rate of primary user NOMA
-
+            &#39;&#39;&#39;
             if inst_rate_primary[sn] &lt; target_RatePri:
                 sinr_primary[sn] = snrValues[sn] * channelPri
                 inst_rate_primary[sn] = 0.5 * np.log(
                     1 + sinr_primary[sn]
-                )  # Instantaneous achievable rate of primary user OMA
+                )  # Instantaneous achievable rate of primary user OMA&#39;&#39;&#39;
         return inst_rate_primary
 
-    def calculate_instantaneous_rate_secondary(channelSec, snrValues, powerSecondary):
+    def calculate_instantaneous_rate_secondary(channelSec, snrValues, powerSecondary, powerPrimary, coeffHard, coeffSic):
         &#34;&#34;&#34;Returns the instantaneous achievable rate of the secondary user for all values of SNR in dB.
 
         `sinr_secondary:` generates the Signal-to-interference-plus-noise ratio (SINR) experienced by the secondary user based on NOMA.
@@ -389,19 +396,38 @@ class valuesGen:
         )  # Initializating auxiliary arrays of Signal-to-interference-plus-noise ratio experienced by the secondary user.
         inst_rate_secondary = np.zeros((len(snrValues)))
         for sn in range(0, len(snrValues)):
-            sinr_secondary[sn] = snrValues[sn] * channelSec * powerSecondary
+            sinr_secondary[sn] = ( snrValues[sn] * channelSec * powerSecondary ) / (
+                snrValues[sn] * channelSec * ( powerPrimary*coeffSic + coeffHard**2 ) + 1
+            )
             inst_rate_secondary[sn] = np.log(
                 1 + sinr_secondary[sn]
             )  # Instantaneous achievable rate of secondary user
 
         return inst_rate_secondary
 
+
 class mainStructure():
     def __init__(self):
         pass
 
     def main_values():
-        &#34;&#34;&#34;Returns the outage probability and average achievable rate of the system
+        &#34;&#34;&#34;Calculates the  outage probability and achievable rate.
+
+        Returns:
+
+            out_probability_system -- outage probability of the system.
+            
+            out_probability_primary_user -- outage probability of the primary user.
+            
+            out_probability_secondary_user -- outage probability of the secondary user.
+            
+            instantaneous_rate_primary -- achievable rate of the primary user.
+            
+            instantaneous_rate_secondary -- achievable rate of the secondary user.
+            
+            average_rate -- average achievable rate of the system.
+            
+            snr_dB -- SNR values in dB.
         &#34;&#34;&#34;
         # --------------- Parameters ---------------
         (
@@ -417,6 +443,8 @@ class mainStructure():
             radius_user,
             target_rate_primary_user,
             target_rate_secondary_user,
+            hardw_ip,
+            sic_ip,
         ) = valuesGen.init_parameters()
         powerCoeffPrimary, powerCoeffSecondary = valuesGen.generate_power_coeff(N_users)
 
@@ -477,11 +505,18 @@ class mainStructure():
                 powerCoeffPrimary,
                 powerCoeffSecondary,
                 target_rate_primary_user,
+                hardw_ip,
+                sic_ip,
             )
             instantaneous_rate_secondary[
                 mc, :
             ] = valuesGen.calculate_instantaneous_rate_secondary(
-                channelGainSecondary, snr_linear, powerCoeffSecondary
+                channelGainSecondary,
+                snr_linear,
+                powerCoeffSecondary,
+                powerCoeffPrimary,
+                hardw_ip,
+                sic_ip,
             )
 
             for sn in range(0, len(snr_dB)):
@@ -546,7 +581,23 @@ class mainStructure():
         pass
 
     def main_values():
-        &#34;&#34;&#34;Returns the outage probability and average achievable rate of the system
+        &#34;&#34;&#34;Calculates the  outage probability and achievable rate.
+
+        Returns:
+
+            out_probability_system -- outage probability of the system.
+            
+            out_probability_primary_user -- outage probability of the primary user.
+            
+            out_probability_secondary_user -- outage probability of the secondary user.
+            
+            instantaneous_rate_primary -- achievable rate of the primary user.
+            
+            instantaneous_rate_secondary -- achievable rate of the secondary user.
+            
+            average_rate -- average achievable rate of the system.
+            
+            snr_dB -- SNR values in dB.
         &#34;&#34;&#34;
         # --------------- Parameters ---------------
         (
@@ -562,6 +613,8 @@ class mainStructure():
             radius_user,
             target_rate_primary_user,
             target_rate_secondary_user,
+            hardw_ip,
+            sic_ip,
         ) = valuesGen.init_parameters()
         powerCoeffPrimary, powerCoeffSecondary = valuesGen.generate_power_coeff(N_users)
 
@@ -622,11 +675,18 @@ class mainStructure():
                 powerCoeffPrimary,
                 powerCoeffSecondary,
                 target_rate_primary_user,
+                hardw_ip,
+                sic_ip,
             )
             instantaneous_rate_secondary[
                 mc, :
             ] = valuesGen.calculate_instantaneous_rate_secondary(
-                channelGainSecondary, snr_linear, powerCoeffSecondary
+                channelGainSecondary,
+                snr_linear,
+                powerCoeffSecondary,
+                powerCoeffPrimary,
+                hardw_ip,
+                sic_ip,
             )
 
             for sn in range(0, len(snr_dB)):
@@ -671,13 +731,38 @@ class mainStructure():
 <span>def <span class="ident">main_values</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns the outage probability and average achievable rate of the system</p></div>
+<div class="desc"><p>Calculates the
+outage probability and achievable rate.</p>
+<h2 id="returns">Returns</h2>
+<p>out_probability_system &ndash; outage probability of the system.</p>
+<p>out_probability_primary_user &ndash; outage probability of the primary user.</p>
+<p>out_probability_secondary_user &ndash; outage probability of the secondary user.</p>
+<p>instantaneous_rate_primary &ndash; achievable rate of the primary user.</p>
+<p>instantaneous_rate_secondary &ndash; achievable rate of the secondary user.</p>
+<p>average_rate &ndash; average achievable rate of the system.</p>
+<p>snr_dB &ndash; SNR values in dB.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def main_values():
-    &#34;&#34;&#34;Returns the outage probability and average achievable rate of the system
+    &#34;&#34;&#34;Calculates the  outage probability and achievable rate.
+
+    Returns:
+
+        out_probability_system -- outage probability of the system.
+        
+        out_probability_primary_user -- outage probability of the primary user.
+        
+        out_probability_secondary_user -- outage probability of the secondary user.
+        
+        instantaneous_rate_primary -- achievable rate of the primary user.
+        
+        instantaneous_rate_secondary -- achievable rate of the secondary user.
+        
+        average_rate -- average achievable rate of the system.
+        
+        snr_dB -- SNR values in dB.
     &#34;&#34;&#34;
     # --------------- Parameters ---------------
     (
@@ -693,6 +778,8 @@ class mainStructure():
         radius_user,
         target_rate_primary_user,
         target_rate_secondary_user,
+        hardw_ip,
+        sic_ip,
     ) = valuesGen.init_parameters()
     powerCoeffPrimary, powerCoeffSecondary = valuesGen.generate_power_coeff(N_users)
 
@@ -753,11 +840,18 @@ class mainStructure():
             powerCoeffPrimary,
             powerCoeffSecondary,
             target_rate_primary_user,
+            hardw_ip,
+            sic_ip,
         )
         instantaneous_rate_secondary[
             mc, :
         ] = valuesGen.calculate_instantaneous_rate_secondary(
-            channelGainSecondary, snr_linear, powerCoeffSecondary
+            channelGainSecondary,
+            snr_linear,
+            powerCoeffSecondary,
+            powerCoeffPrimary,
+            hardw_ip,
+            sic_ip,
         )
 
         for sn in range(0, len(snr_dB)):
@@ -846,10 +940,13 @@ class mainStructure():
         radius_value_uav = 1.0  # Fly trajectory of the UAV in meters
         radius_value_user = 2.0  # Distribution radius of users in the cell in meters.
         # Users&#39; Target Rate
-        rate_value_primary_user = 1.0  # Target rate bits/s/Hertz  primary user
+        rate_value_primary_user = 0.5  # Target rate bits/s/Hertz  primary user
         rate_value_secondary_user = 0.5  # Target rate bits/s/Hertz  secondary users
-        snr_values_dB = np.array(range(10, 51, 2))  # SNR in dB
+        snr_values_dB = np.array(range(10, 41, 2))  # SNR in dB
         snr_values_linear = 10 ** (snr_values_dB / 10)  # SNR linear
+
+        coeffHard = 0.05 # Residual Hardware Impairments
+        coeffSic = 0.05  # Residual Imperfect SIC
 
         return (
             samples_mc,
@@ -864,6 +961,8 @@ class mainStructure():
             radius_value_user,
             rate_value_primary_user,
             rate_value_secondary_user,
+            coeffHard,
+            coeffSic,
         )
 
     def generate_power_coeff(n_users):
@@ -884,9 +983,9 @@ class mainStructure():
             &#34;WARNING: The sum of powers must be: [0 &lt;sum(power) &lt;= 1], \n AND the power of the primary user must be greater than that of the secondary in order for their QoS to be satisfied. E.g. user_1 = 0.8 and user_2 =0.2.\n&#34;
         )
         # (&#39;Enter the value of power coefficient allocation of the Primary User:  &#39;)
-        data_power_Pri = 0.8  # float(input(&#39;--&gt; &#39;))
+        data_power_Pri = 0.6  # float(input(&#39;-&gt; &#39;))
         # (&#39;Enter the value of power coefficient allocation of the Secondart User:  &#39;)
-        data_power_Sec = 0.2  # float(input(&#39;--&gt; &#39;))
+        data_power_Sec = 0.4  # float(input(&#39;--&gt; &#39;))
 
         return data_power_Pri, data_power_Sec
 
@@ -915,7 +1014,7 @@ class mainStructure():
         rho_r = radiusUAV
         x_r = rho_r * np.cos(theta_r)
         y_r = rho_r * np.sin(theta_r)
-        z_r = 30.0
+        z_r = 20.0
         return x_r, y_r, z_r
 
     def random_position_users(numberUsers, radiusUser):
@@ -1008,7 +1107,7 @@ class mainStructure():
         return channelGain
 
     def calculate_instantaneous_rate_primary(
-        channelPri, channelSec, snrValues, powerPrimary, powerSecondary, target_RatePri
+        channelPri, channelSec, snrValues, powerPrimary, powerSecondary, target_RatePri, coeffHard, coeffSic,
     ):
         &#34;&#34;&#34;Returns the instantaneous achievable rate of the primary user for all values of SNR in dB.
 
@@ -1044,20 +1143,20 @@ class mainStructure():
         for sn in range(0, len(snrValues)):
 
             sinr_primary[sn] = (snrValues[sn] * channelPri * powerPrimary) / (
-                snrValues[sn] * channelSec * powerSecondary + 1
+                snrValues[sn] * channelSec * ( powerSecondary + coeffHard**2  ) + 1
             )
             inst_rate_primary[sn] = np.log(
                 1 + sinr_primary[sn]
             )  # Instantaneous achievable rate of primary user NOMA
-
+            &#39;&#39;&#39;
             if inst_rate_primary[sn] &lt; target_RatePri:
                 sinr_primary[sn] = snrValues[sn] * channelPri
                 inst_rate_primary[sn] = 0.5 * np.log(
                     1 + sinr_primary[sn]
-                )  # Instantaneous achievable rate of primary user OMA
+                )  # Instantaneous achievable rate of primary user OMA&#39;&#39;&#39;
         return inst_rate_primary
 
-    def calculate_instantaneous_rate_secondary(channelSec, snrValues, powerSecondary):
+    def calculate_instantaneous_rate_secondary(channelSec, snrValues, powerSecondary, powerPrimary, coeffHard, coeffSic):
         &#34;&#34;&#34;Returns the instantaneous achievable rate of the secondary user for all values of SNR in dB.
 
         `sinr_secondary:` generates the Signal-to-interference-plus-noise ratio (SINR) experienced by the secondary user based on NOMA.
@@ -1082,7 +1181,9 @@ class mainStructure():
         )  # Initializating auxiliary arrays of Signal-to-interference-plus-noise ratio experienced by the secondary user.
         inst_rate_secondary = np.zeros((len(snrValues)))
         for sn in range(0, len(snrValues)):
-            sinr_secondary[sn] = snrValues[sn] * channelSec * powerSecondary
+            sinr_secondary[sn] = ( snrValues[sn] * channelSec * powerSecondary ) / (
+                snrValues[sn] * channelSec * ( powerPrimary*coeffSic + coeffHard**2 ) + 1
+            )
             inst_rate_secondary[sn] = np.log(
                 1 + sinr_secondary[sn]
             )  # Instantaneous achievable rate of secondary user
@@ -1092,7 +1193,7 @@ class mainStructure():
 <h3>Methods</h3>
 <dl>
 <dt id="uavnoma.valuesGen.calculate_instantaneous_rate_primary"><code class="name flex">
-<span>def <span class="ident">calculate_instantaneous_rate_primary</span></span>(<span>channelPri, channelSec, snrValues, powerPrimary, powerSecondary, target_RatePri)</span>
+<span>def <span class="ident">calculate_instantaneous_rate_primary</span></span>(<span>channelPri, channelSec, snrValues, powerPrimary, powerSecondary, target_RatePri, coeffHard, coeffSic)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns the instantaneous achievable rate of the primary user for all values of SNR in dB.</p>
@@ -1116,7 +1217,7 @@ power coefficient allocated to the Secondary user.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def calculate_instantaneous_rate_primary(
-    channelPri, channelSec, snrValues, powerPrimary, powerSecondary, target_RatePri
+    channelPri, channelSec, snrValues, powerPrimary, powerSecondary, target_RatePri, coeffHard, coeffSic,
 ):
     &#34;&#34;&#34;Returns the instantaneous achievable rate of the primary user for all values of SNR in dB.
 
@@ -1152,22 +1253,22 @@ power coefficient allocated to the Secondary user.</p>
     for sn in range(0, len(snrValues)):
 
         sinr_primary[sn] = (snrValues[sn] * channelPri * powerPrimary) / (
-            snrValues[sn] * channelSec * powerSecondary + 1
+            snrValues[sn] * channelSec * ( powerSecondary + coeffHard**2  ) + 1
         )
         inst_rate_primary[sn] = np.log(
             1 + sinr_primary[sn]
         )  # Instantaneous achievable rate of primary user NOMA
-
+        &#39;&#39;&#39;
         if inst_rate_primary[sn] &lt; target_RatePri:
             sinr_primary[sn] = snrValues[sn] * channelPri
             inst_rate_primary[sn] = 0.5 * np.log(
                 1 + sinr_primary[sn]
-            )  # Instantaneous achievable rate of primary user OMA
+            )  # Instantaneous achievable rate of primary user OMA&#39;&#39;&#39;
     return inst_rate_primary</code></pre>
 </details>
 </dd>
 <dt id="uavnoma.valuesGen.calculate_instantaneous_rate_secondary"><code class="name flex">
-<span>def <span class="ident">calculate_instantaneous_rate_secondary</span></span>(<span>channelSec, snrValues, powerSecondary)</span>
+<span>def <span class="ident">calculate_instantaneous_rate_secondary</span></span>(<span>channelSec, snrValues, powerSecondary, powerPrimary, coeffHard, coeffSic)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns the instantaneous achievable rate of the secondary user for all values of SNR in dB.</p>
@@ -1184,7 +1285,7 @@ power coefficient allocated to the Secondary user.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def calculate_instantaneous_rate_secondary(channelSec, snrValues, powerSecondary):
+<pre><code class="python">def calculate_instantaneous_rate_secondary(channelSec, snrValues, powerSecondary, powerPrimary, coeffHard, coeffSic):
     &#34;&#34;&#34;Returns the instantaneous achievable rate of the secondary user for all values of SNR in dB.
 
     `sinr_secondary:` generates the Signal-to-interference-plus-noise ratio (SINR) experienced by the secondary user based on NOMA.
@@ -1209,7 +1310,9 @@ power coefficient allocated to the Secondary user.</p>
     )  # Initializating auxiliary arrays of Signal-to-interference-plus-noise ratio experienced by the secondary user.
     inst_rate_secondary = np.zeros((len(snrValues)))
     for sn in range(0, len(snrValues)):
-        sinr_secondary[sn] = snrValues[sn] * channelSec * powerSecondary
+        sinr_secondary[sn] = ( snrValues[sn] * channelSec * powerSecondary ) / (
+            snrValues[sn] * channelSec * ( powerPrimary*coeffSic + coeffHard**2 ) + 1
+        )
         inst_rate_secondary[sn] = np.log(
             1 + sinr_secondary[sn]
         )  # Instantaneous achievable rate of secondary user
@@ -1345,9 +1448,9 @@ power coefficients of the Secondary users.</p></div>
         &#34;WARNING: The sum of powers must be: [0 &lt;sum(power) &lt;= 1], \n AND the power of the primary user must be greater than that of the secondary in order for their QoS to be satisfied. E.g. user_1 = 0.8 and user_2 =0.2.\n&#34;
     )
     # (&#39;Enter the value of power coefficient allocation of the Primary User:  &#39;)
-    data_power_Pri = 0.8  # float(input(&#39;--&gt; &#39;))
+    data_power_Pri = 0.6  # float(input(&#39;-&gt; &#39;))
     # (&#39;Enter the value of power coefficient allocation of the Secondart User:  &#39;)
-    data_power_Sec = 0.2  # float(input(&#39;--&gt; &#39;))
+    data_power_Sec = 0.4  # float(input(&#39;--&gt; &#39;))
 
     return data_power_Pri, data_power_Sec</code></pre>
 </details>
@@ -1396,10 +1499,13 @@ The user can modify the parameters to analyze the system performance</p></div>
     radius_value_uav = 1.0  # Fly trajectory of the UAV in meters
     radius_value_user = 2.0  # Distribution radius of users in the cell in meters.
     # Users&#39; Target Rate
-    rate_value_primary_user = 1.0  # Target rate bits/s/Hertz  primary user
+    rate_value_primary_user = 0.5  # Target rate bits/s/Hertz  primary user
     rate_value_secondary_user = 0.5  # Target rate bits/s/Hertz  secondary users
-    snr_values_dB = np.array(range(10, 51, 2))  # SNR in dB
+    snr_values_dB = np.array(range(10, 41, 2))  # SNR in dB
     snr_values_linear = 10 ** (snr_values_dB / 10)  # SNR linear
+
+    coeffHard = 0.05 # Residual Hardware Impairments
+    coeffSic = 0.05  # Residual Imperfect SIC
 
     return (
         samples_mc,
@@ -1414,6 +1520,8 @@ The user can modify the parameters to analyze the system performance</p></div>
         radius_value_user,
         rate_value_primary_user,
         rate_value_secondary_user,
+        coeffHard,
+        coeffSic,
     )</code></pre>
 </details>
 </dd>
@@ -1461,7 +1569,7 @@ The user can modify the parameters to analyze the system performance</p></div>
     rho_r = radiusUAV
     x_r = rho_r * np.cos(theta_r)
     y_r = rho_r * np.sin(theta_r)
-    z_r = 30.0
+    z_r = 20.0
     return x_r, y_r, z_r</code></pre>
 </details>
 </dd>
