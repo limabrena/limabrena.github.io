@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>uavnoma API documentation</title>
+<meta name="description" content="A Python 3.8 implementation of a model of wireless communication
+system between an area base station and two users.
+System Model of UAV-NOMA …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Package <code>uavnoma</code></h1>
+</header>
+<section id="section-intro">
+<p>A Python 3.8 implementation of a model of wireless communication
+system between an area base station and two users. </p>
+<h1 id="system-model-of-uav-noma-system-with-two-users">System Model of UAV-NOMA System with Two-users</h1>
+<p><a href="https://travis-ci.org/github/limabrena/power-allocation-UAV-NOMA-two-users"><img alt="Build Status" src="https://travis-ci.org/limabrena/power-allocation-UAV-NOMA-two-users.svg?branch=main"></a>
+<a href="https://codecov.io/gh/limabrena/power-allocation-UAV-NOMA-two-users"><img alt="codecov" src="https://codecov.io/gh/limabrena/power-allocation-UAV-NOMA-two-users/branch/main/graph/badge.svg?token=H5W453JPYU"></a></p>
+<p>A Python 3.8 implementation of the System Model of Unmanned Aerial Vehicle with Non-Orthogonal Multiple Access (UAV-NOMA) System and 2 ground users under considerations of non-ideal conditions, such as imperfect successive interference cancelation (SIC) and residual hardware impairments (RHI). We consider a uplink UAV-aided NOMA network, as illustrated in the figure below.</p>
+<p><img alt="System model." src="figures/uav_system_model_ex.png"></p>
+<h2 id="features">Features</h2>
+<p>The <strong>uavnoma</strong> package allows the user to study the modeling of a UAV-NOMA network and use it as a basis for implementing other technologies. This application can be used as a study tool to understand the behavior of the achievable rate by two users and the influence of the allocation of power coefficients in a UAV-NOMA system under non-ideal conditions. The communication model presented is a base of UAV-NOMA principles and can be expanded to several other scenarios, such as cooperative systems, full-duplex communication,
+and others in order to improve system performance.</p>
+<p>The user can modify parameters and analyze the system's behavior. Based on this, new methods can be proposed to solve UAV trajectory problems, power allocation, user pairing, energy harvesting for UAV maintenance, decoding order and others.</p>
+<p>The package contains functions:
+- To calculate the position of the UAV and users
+- To generate the channel gain between UAV and users
+- To calculate of the Signal Interference Noise Ratio (SINR)
+- To analyze system performance using as metrics the instantaneous achievable rate and outage probability.</p>
+<h2 id="requirements">Requirements</h2>
+<p>The implementation requires Python 3.8+ to run.
+The following libraries are required:</p>
+<ul>
+<li><code>numpy</code></li>
+<li><code>matplotlib</code></li>
+</ul>
+<h2 id="how-to-install">How to install</h2>
+<p>To install the <em>uavnoma</em> package, running the following command:</p>
+<pre><code>$ pip install uavnoma
+</code></pre>
+<h3 id="from-github">From GitHub</h3>
+<pre><code>$ 
+</code></pre>
+<h2 id="documentation">Documentation</h2>
+<ul>
+<li><a href="">uavnoma documentation</a></li>
+<li><a href="doc/installationgruide.md">Developer's guide</a></li>
+<li><a href="example/uavnoma_tutorial.ipynb">Tutorial for the uavnoma functions</a></li>
+<li><a href="doc/documentation.md">Scenario Description</a></li>
+</ul>
+<h2 id="license">License</h2>
+<p><a href="LICENSE.txt">MIT License</a></p>
+<h1 id="developers-guide">Developer's guide</h1>
+<h2 id="how-to-use-this-application">How to use this application?</h2>
+<h3 id="download">Download</h3>
+<p>Cloning the repository via terminal:</p>
+<pre><code>$ git clone https://github.com/limabrena/power-allocation-UAV-NOMA-two-users.git
+$ cd uavnoma
+</code></pre>
+<p>Download ZIP file directly in my git repository:</p>
+<pre><code>https://github.com/limabrena/power-allocation-UAV-NOMA-two-users/archive/main.zip
+</code></pre>
+<p>The user can simply run it from the downloaded folder, provided the necessary requirements are installed. This is the easiest way for the student to be able to study and modify the system model.</p>
+<h3 id="usage">Usage</h3>
+<p>An example on how to use a package can be seen in the examples folder.
+The folder contains a tutorial file <code>uavnoma_tutorial.ipynb</code>
+and an example implementation of a UAV NOMA system using the <em>uavnoma</em> package.
+Running the example file can be done with the following command from the project's root folder:</p>
+<pre><code>$ python plot_figures.py
+</code></pre>
+<p>or access the project folder from an IDE.</p>
+<h3 id="documentation_1">Documentation</h3>
+<p>Project documentation is generated using <a href="https://pdoc3.github.io/pdoc/">pdoc3</a>. To generate the project documentation, running the following command in the folder <code><a title="uavnoma" href="#uavnoma">uavnoma</a></code>. </p>
+<pre><code>pdoc3 --html --output-dir docs uavnoma/
+</code></pre>
+<p>This comand generates the HTML documentation and salve it in the docs folder.</p>
+<p>On the other hand, the documentation can be viewed <a href="https://limabrena.github.io/pauavnoma/docs/uavnoma.html">here</a></p>
+<h3 id="test">Test</h3>
+<p>The <a href="https://docs.pytest.org/en/stable/">pytest</a> and <a href="https://pypi.org/project/pytest-cov/">pytest-cov</a> packages are required for testing <em>uavnoma</em> package.</p>
+<p>To run the unit tests, you can use the following command in the project's root folder:</p>
+<pre><code>pytest
+</code></pre>
+<p>To analyze test coverage, run the command below. The command will return an HTML file with test coverage information.</p>
+<pre><code>pytest --cov=uavnoma --cov-report=html
+</code></pre>
+<h1 id="scenario-description">Scenario Description</h1>
+<p>We consider a uplink UAV-aided NOMA network, as illustrated in the figure below.</p>
+<p><img alt="System model." src="../figures/uav_system_model_ex.png"></p>
+<p>In this scenario, a UAV is deployed as an air base station that communicates with two users, $N_1$ and $N_2$.
+For each Monte Carlo sample, users are randomly distributed in a 2D region ($x$-axis and $y$-axis).
+While the UAV has a flight path randomly defined at points in a circle, in a 3D region ($x$-axis, $y$-axis and $z$-axis).
+We consider that each node is equipped with a single antenna and both UAV and users operate in the half-duplex mode.
+$N_1$ is viewed as the primary user and $N_2$ is viewed as secondary user. On the others words, we assume that the primary user has priority to meet their quality of service requirements because they have the worst channel conditions.
+In order to guarantee primary user's Quality-of-Service requirements, the UAV first decodes the $N_1$'s message.
+Then, the UAV decodes the message from the secondary user $N_2$ without experiencing any performance degradation due to the primary user.</p>
+<p><em>Example:</em></p>
+<blockquote>
+<p>$N_1$ may be an Internet of Things (IoT) healthcare device which needs to send health status changes.</p>
+<p>$N_2$ an IoT device sending personal tasks records, where the transmission is a delay tolerant.</p>
+</blockquote>
+<p>Different levels of power coefficients must be allocated to each user's signal, so that users' QoS requirements are satisfied.</p>
+<h2 id="performance-analysis-metrics">Performance analysis metrics</h2>
+<p>The outage probability and achievable rate are used as performance metrics.</p>
+<ul>
+<li><code>Outage Probability:</code> the outage probability is estimated as the ratio between the number of outage events and the total number of Monte Carlo repetitions. An outage event happens when the supported user data rates for a particular instantaneous channel realization is less than the target data rate.</li>
+<li><code>Achievable Rate:</code> the achievable rate consists of the throughput of network users, while average achievable rate consists of the average throughput of all network users.</li>
+</ul>
+<p>We consider the Rician distribution to model the fading model considering line-of-sight.
+If the Rician Factor <code>K=0</code>, fading is similar to Rayleigh's.</p>
+<hr>
+<h2 id="description-of-the-simulation-parameters">Description of the Simulation Parameters</h2>
+<ul>
+<li><code>monte_carlo_samples</code> (integer) : Monte Carlo Samples.</li>
+<li><code>number_user</code> (integer) : number of users (in our case, two users).</li>
+<li><code>number_uav</code>(integer) : number of UAV
+(in our case, single uav).</li>
+<li><code>snr_dB</code> (array of integer, size[10:2:51]) : signal-to-noise ratio in dB.</li>
+<li><code>path_loss</code> (float) : path loss exponent.</li>
+<li><code>power_los</code> (float) : total power of LOS path &amp; scattered paths.</li>
+<li><code>rician_factor</code> (integer) : Rician Factor.</li>
+<li><code>target_rate_primary_user</code> (float) : target rate in bits/s/Hertz of primary users. </li>
+<li><code>target_rate_secondary_user</code> (float) : target rate in bits/s/Hertz of secondary users. </li>
+<li><code>radius_uav</code> (float) : radius in meter of fly trajectory UAV.</li>
+<li><code>radius_user</code> (float) : radius of the cell of users in meters.</li>
+<li><code>uav_heigth_mean</code>(float) : Average UAV flight height</li>
+<li><code>distance</code>(array of float, size(N_users)) : distance between UAV and n-th user randomly calculated for each Monte Carlo sample. </li>
+<li><code>power_coeff_primary</code> (float) : power coefficient allocated to the Primary user.</li>
+<li><code>power_coeff_secondary</code> (float) : power coefficient allocated to the Secondary user.</li>
+<li><code>small_scale_fading</code> (complex number) : channel coefficients for each user generated by Rician distribution. This can be generated randomly following
+using: <code>np.sqrt((np.random.normal(s,sigma)**2) + 1j*(np.random.normal(0,sigma)**2))</code>.</li>
+<li><code>large_scale_fading</code> (float): large scale fading</li>
+<li><code>s</code> (float) : Non-Centrality Parameter (mean) of Rician distribution, obtained by <code>s=sqrt(rician_factor/(rician_factor+1)*power_los)</code>.</li>
+<li><code>sigma</code> (float) : Standard deviation of Rician distribution, obtained by <code>sigma = power_los/sqrt(2*(rician_factor+1))</code>.</li>
+<li><code>h_n</code> (array of float, size(N_users)) : channel coefficients over small_scale_fading and large scale fading.</li>
+<li><code>channel_primary</code> (float) : channel gain of the primary user.</li>
+<li><code>channel_secondary</code> (float) : channel gain of the secondary user.</li>
+<li><code>hardw_ip</code>(float) : Residual Hardware Impairment coefficient.</li>
+<li><code>sic_ip</code> (float) : Sucessice Interference Cancelation coefficient.</li>
+</ul>
+<hr>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;      
+   A Python 3.8 implementation of a model of wireless communication 
+   system between an area base station and two users. 
+   .. include:: ../README.md
+   .. include:: ../doc/installationguide.md
+   .. include:: ../doc/documentation.md
+
+&#34;&#34;&#34;
+
+from .generate_values import fading_rician
+from .generate_values import random_position_uav
+from .generate_values import random_position_users
+from .generate_values import generate_channel
+from .performance_metrics import calculate_instantaneous_rate_primary
+from .performance_metrics import calculate_instantaneous_rate_secondary
+from .performance_metrics import average_rate
+from .performance_metrics import outage_probability</code></pre>
+</details>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="uavnoma.generate_values" href="generate_values.html">uavnoma.generate_values</a></code></dt>
+<dd>
+<div class="desc"><p>This module contains functions to generate simulation parameters.</p></div>
+</dd>
+<dt><code class="name"><a title="uavnoma.performance_metrics" href="performance_metrics.html">uavnoma.performance_metrics</a></code></dt>
+<dd>
+<div class="desc"><p>This module contains script to calculate performance metrics: achievable rate and outage probability .</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul>
+<li><a href="#system-model-of-uav-noma-system-with-two-users">System Model of UAV-NOMA System with Two-users</a><ul>
+<li><a href="#features">Features</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#how-to-install">How to install</a><ul>
+<li><a href="#from-github">From GitHub</a></li>
+</ul>
+</li>
+<li><a href="#documentation">Documentation</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+</li>
+<li><a href="#developers-guide">Developer's guide</a><ul>
+<li><a href="#how-to-use-this-application">How to use this application?</a><ul>
+<li><a href="#download">Download</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#documentation_1">Documentation</a></li>
+<li><a href="#test">Test</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#scenario-description">Scenario Description</a><ul>
+<li><a href="#performance-analysis-metrics">Performance analysis metrics</a></li>
+<li><a href="#description-of-the-simulation-parameters">Description of the Simulation Parameters</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="uavnoma.generate_values" href="generate_values.html">uavnoma.generate_values</a></code></li>
+<li><code><a title="uavnoma.performance_metrics" href="performance_metrics.html">uavnoma.performance_metrics</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
