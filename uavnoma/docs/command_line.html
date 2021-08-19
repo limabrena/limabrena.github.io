@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>uavnoma.command_line API documentation</title>
+<meta name="description" content="This script performs a simulation of a UAV-NOMA system with two users." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>uavnoma.command_line</code></h1>
+</header>
+<section id="section-intro">
+<p>This script performs a simulation of a UAV-NOMA system with two users.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+    This script performs a simulation of a UAV-NOMA system with two users.
+&#34;&#34;&#34;
+
+import argparse
+import numpy as np
+import pandas as pd
+import tabulate as tab
+import matplotlib.pyplot as plt
+import uavnoma
+
+def main():
+
+    # Create an argument parser
+    parser = argparse.ArgumentParser(description=&#39;Model of UAV-NOMA system with two users.&#39;,
+                                    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    # Specify arguments to parse
+    parser.add_argument(&#39;-s&#39;, &#39;--monte-carlo-samples&#39;, type=int, metavar=&#39;SAMPLES&#39;,
+                        help=&#39;Monte Carlo samples&#39;, default=1000)
+    parser.add_argument(&#39;-p&#39;, &#39;--power-los&#39;, type=float, metavar=&#39;POWER_LOS&#39;,
+                        help=&#39;Power of line-of-sight path and scattered paths, 1.0 &lt;= POWER_LOS &lt;= 2.0&#39;,
+                        default=2.0)
+    parser.add_argument(&#39;-f&#39;, &#39;--rician-factor&#39;, type=float, metavar=&#39;FACTOR&#39;,
+                        help=&#39;Rician factor value, 10&lt;= FACTOR &lt;= 18&#39;,
+                        default=15.0)
+    parser.add_argument(&#39;-l&#39;, &#39;--path-loss&#39;, type=float, metavar=&#39;LOSS&#39;,
+                        help=&#39;Path loss exponent, 2 &lt;= LOSS &lt;= 3&#39;,
+                        default=2.2)
+    parser.add_argument(&#39;-r&#39;, &#39;--radius-uav&#39;, type=float, metavar=&#39;RADIUS&#39;,
+                        help=&#39;Radius fly trajectory of the UAV in meters&#39;,
+                        default=2.0)
+    parser.add_argument(&#39;-ur&#39;, &#39;--radius-user&#39;, type=float, metavar=&#39;RADIUS&#39;,
+                        help=&#39;Distribution radius of users in the cell in meters&#39;,
+                        default=15.0)
+    parser.add_argument(&#39;-uh&#39;, &#39;--uav-height-mean&#39;, type=float, metavar=&#39;MEAN&#39;,
+                        help=&#39;Average UAV flight height&#39;,
+                        default=20.0)
+    parser.add_argument(&#39;-t1&#39;, &#39;--target-rate-primary-user&#39;, type=float, metavar=&#39;RATE&#39;,
+                        help=&#39;Target rate bits/s/Hertz  primary user&#39;,
+                        default=0.5)
+    parser.add_argument(&#39;-t2&#39;, &#39;--target-rate-secondary-user&#39;, type=float, metavar=&#39;RATE&#39;,
+                        help=&#39;Target rate bits/s/Hertz  secondary user&#39;,
+                        default=0.5)
+    parser.add_argument(&#39;-hi&#39;, &#39;--hardw-ip&#39;, type=float, metavar=&#39;COEFF&#39;,
+                        help=&#39;Residual Hardware Impairments coefficient, 0 &lt;= COEFF &lt;=1&#39;,
+                        default=0.1)
+    parser.add_argument(&#39;-si&#39;, &#39;--sic-ip&#39;, type=float, metavar=&#39;COEFF&#39;,
+                        help=&#39;Residual Imperfect SIC coefficient, 0 &lt;= COEFF &lt;=1&#39;,
+                        default=0.1)
+    parser.add_argument(&#39;-p1&#39;, &#39;--power-coeff-primary&#39;, type=float, metavar=&#39;COEFF&#39;,
+                        help=&#39;The value of power coefficient allocation of the Primary User&#39;,
+                        default=0.8)
+    parser.add_argument(&#39;-p2&#39;, &#39;--power-coeff-secondary&#39;, type=float, metavar=&#39;COEFF&#39;,
+                        help=&#39;The value of power coefficient allocation of the Secondary User&#39;,
+                        default=0.2)
+    parser.add_argument(&#39;--snr-min&#39;, type=float, metavar=&#39;SNR_MIN&#39;,
+                        help=&#39;Minimum / starting SNR in dB&#39;,
+                        default=10)
+    parser.add_argument(&#39;--snr-max&#39;, type=float, metavar=&#39;SNR_MAX&#39;,
+                        help=&#39;Maximum / finishing SNR in dB&#39;,
+                        default=60)
+    parser.add_argument(&#39;--snr-samples&#39;, type=int, metavar=&#39;NUM&#39;,
+                        help=&#39;Number of SNR samples between SNR_MIN and SNR_MAX&#39;,
+                        default=26)
+    parser.add_argument(&#39;--seed&#39;, type=int, metavar=&#34;SEED&#34;,
+                        help=&#34;Seed for pseudo-random number generator&#34;,
+                        default = None)
+    parser.add_argument(&#39;-o&#39;, &#39;--output&#39;, type=str, metavar=&#39;FILE&#39;,
+                        help=&#39;CSV file where to save simulation data&#39;,
+                        default=None)
+    parser.add_argument(&#39;--plot&#39;, action=&#39;store_true&#39;,
+                        help=&#39;Plot the values of the achievable rate and outage probability&#39;,
+                        default=False)
+    parser.add_argument(&#39;--no-print&#39;, action=&#39;store_true&#39;,
+                        help=&#39;Do not print results to terminal&#39;,
+                        default=False)
+
+    # Unused arguments for now
+    parser.add_argument(&#39;--number-uav&#39;, type=int, metavar=&#39;NUM&#39;,
+                        help=argparse.SUPPRESS, # &#39;Number of UAV must be 1&#39;,
+                        default=1)
+    parser.add_argument(&#39;--number-user&#39;, type=int, metavar=&#39;NUM&#39;,
+                        help=argparse.SUPPRESS, # &#39;Number of users must be 2&#39;,
+                        default=2)
+
+    # Parse command line arguments
+    args = parser.parse_args()
+    args = uavnoma.validation(args)
+
+    # Initialization of some auxiliary arrays
+    snr_dB = np.linspace(args.snr_min, args.snr_max, args.snr_samples) # SNR in dB
+    snr_linear = 10.0 ** (snr_dB / 10.0)  # SNR linear
+    out_probability_system = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+    out_probability_secondary_user = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+    out_probability_primary_user = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+    system_average_rate = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+    rate_secondary_user = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+    rate_primary_user = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+
+
+    # ------------------------------------------------------------------------------------ 
+
+    for mc in range(args.monte_carlo_samples):
+        # Position UAV and users
+        uav_axis_x, uav_axis_y, uav_height = uavnoma.random_position_uav(args.number_uav,
+                                                                        args.radius_uav,
+                                                                        args.uav_height_mean)
+
+        user_axis_x, user_axis_y = uavnoma.random_position_users(args.number_user,
+                                                                args.radius_user)
+
+        s, sigma = uavnoma.fading_rician(args.rician_factor, args.power_los)
+
+        # Generate channel gains
+        channel_gain_primary, channel_gain_secondary =  uavnoma.generate_channel(
+            s,
+            sigma,
+            args.number_user,
+            user_axis_x,
+            user_axis_y,
+            uav_axis_x,
+            uav_axis_y,
+            uav_height,
+            args.path_loss,
+        )
+
+        # Analyzes system performance metrics for various SNR values
+        for sn in range(0, len(snr_dB)):
+
+            # Calculating achievable rate of primary user
+            rate_primary_user[mc, sn] = uavnoma.calculate_instantaneous_rate_primary(
+                channel_gain_primary,
+                snr_linear[sn],
+                args.power_coeff_primary,
+                args.power_coeff_secondary,
+                args.hardw_ip,
+            )
+            # Calculating achievable rate of secondary user
+            rate_secondary_user[mc, sn] = uavnoma.calculate_instantaneous_rate_secondary(
+                channel_gain_secondary,
+                snr_linear[sn],
+                args.power_coeff_secondary,
+                args.power_coeff_primary,
+                args.hardw_ip,
+                args.sic_ip,
+            )
+
+            system_average_rate[mc, sn] = uavnoma.average_rate(rate_primary_user[mc, sn],
+                                                            rate_secondary_user[mc, sn])
+
+            # Calculating of outage probability of the system
+            out_probability_system[mc, sn], out_probability_primary_user[mc,sn], out_probability_secondary_user[mc, sn] = uavnoma.outage_probability(
+                rate_primary_user[mc, sn],
+                rate_secondary_user[mc, sn],
+                args.target_rate_primary_user,
+                args.target_rate_secondary_user,
+            )
+
+    ## Outage Probability
+
+    # Outage probability of the System
+    out_prob_mean = np.mean(out_probability_system, axis=0)
+
+    # Outage probability of the Primary User
+    out_prob_primary = np.mean(out_probability_primary_user, axis=0)
+
+    # Outage probability of the Secondary User
+    out_prob_secondary = np.mean(out_probability_secondary_user, axis=0)
+
+    ## Achievable Rate
+
+    # Average achievable rate of the system
+    average_rate_mean = np.mean(system_average_rate, axis=0)
+
+    # Average achievable rate of the Primary User
+    rate_mean_primary_user = np.mean(rate_primary_user, axis=0)
+
+    # Average achievable rate of the Secondary User
+    rate_mean_secondary_user = np.mean(rate_secondary_user, axis=0)
+
+
+    # Put all mean data into a numpy matrix / table
+    all_data_np = np.c_[ snr_dB, out_prob_mean, out_prob_primary, out_prob_secondary,
+                        average_rate_mean, rate_mean_primary_user, rate_mean_secondary_user]
+
+    # Convert numpy matrix to Pandas dataframe with column names
+    all_data_df = pd.DataFrame(all_data_np,
+                            columns = [&#39;snr_dB&#39;, &#39;p_outage_sys&#39;, &#39;p_outage_usr1&#39;,
+                                        &#39;p_outage_usr2&#39;, &#39;avg_arate_sys&#39;,
+                                        &#39;avg_arate_usr1&#39;, &#39;avg_arate_usr2&#39; ])
+
+    # Print to screen, except if --no-print option was specified
+    if not args.no_print:
+        print(tab.tabulate(all_data_df, tablefmt=&#39;psql&#39;, showindex=False,
+                        headers=[&#39;SNR\n(dB)&#39;, &#39;Outage\nprobability\nSystem&#39;,
+                                    &#39;Outage\nprobability\nPrimary user&#39;,
+                                    &#39;Outage\nprobability\nSecondary user&#39;,
+                                    &#39;Average\nachievable rate\nSystem&#39;,
+                                    &#39;Average\nachievable rate\nPrimary User&#39;,
+                                    &#39;Average\nachievable rate\nSecondary User&#39;]))
+
+    # Save results to file if a filename was specified
+    if args.output != None:
+        all_data_df.to_csv(args.output, index=False)
+
+    # Plot simulation results if --plot option was given
+    if args.plot:
+
+        # Outage probability
+        plt.semilogy(snr_dB, out_prob_primary, &#34;b.-&#34;, label=&#34;Primary user&#34;, linewidth=1)
+        plt.semilogy(snr_dB, out_prob_secondary, &#34;r.-&#34;, label=&#34;Secondary user&#34;, linewidth=1)
+        plt.xlabel(&#34;SNR (dB)&#34;)
+        plt.ylabel(&#34;Outage Probability&#34;)
+        plt.legend(loc=&#34;lower left&#34;)
+
+        # Determine the highest index of the outage probability arrays containing values &gt; 0
+        i_max = len(snr_dB) - 1
+        for i in range(len(snr_dB) - 1, 0, -1):
+            if out_prob_primary[i] == 0 and out_prob_secondary[i] == 0:
+                i_max = i
+            else:
+                break
+
+        # Adjust plot
+        plt.xlim(args.snr_min, snr_dB[i_max])
+
+        # Average Achievable Rate of the users
+        plt.figure()
+        plt.plot(snr_dB, rate_mean_primary_user, &#34;b.-&#34;, label=&#34;primary user&#34;, linewidth=1)
+        plt.plot(snr_dB, rate_mean_secondary_user, &#34;r.-&#34;, label=&#34;secondary user&#34;, linewidth=1)
+        plt.xlabel(&#34;SNR (dB)&#34;)
+        plt.ylabel(&#34;Achievable rate (bits/s/Hz)&#34;)
+        plt.legend(loc=&#34;upper left&#34;)
+        plt.xlim(args.snr_min, args.snr_max)
+
+        plt.show()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="uavnoma.command_line.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main():
+
+    # Create an argument parser
+    parser = argparse.ArgumentParser(description=&#39;Model of UAV-NOMA system with two users.&#39;,
+                                    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    # Specify arguments to parse
+    parser.add_argument(&#39;-s&#39;, &#39;--monte-carlo-samples&#39;, type=int, metavar=&#39;SAMPLES&#39;,
+                        help=&#39;Monte Carlo samples&#39;, default=1000)
+    parser.add_argument(&#39;-p&#39;, &#39;--power-los&#39;, type=float, metavar=&#39;POWER_LOS&#39;,
+                        help=&#39;Power of line-of-sight path and scattered paths, 1.0 &lt;= POWER_LOS &lt;= 2.0&#39;,
+                        default=2.0)
+    parser.add_argument(&#39;-f&#39;, &#39;--rician-factor&#39;, type=float, metavar=&#39;FACTOR&#39;,
+                        help=&#39;Rician factor value, 10&lt;= FACTOR &lt;= 18&#39;,
+                        default=15.0)
+    parser.add_argument(&#39;-l&#39;, &#39;--path-loss&#39;, type=float, metavar=&#39;LOSS&#39;,
+                        help=&#39;Path loss exponent, 2 &lt;= LOSS &lt;= 3&#39;,
+                        default=2.2)
+    parser.add_argument(&#39;-r&#39;, &#39;--radius-uav&#39;, type=float, metavar=&#39;RADIUS&#39;,
+                        help=&#39;Radius fly trajectory of the UAV in meters&#39;,
+                        default=2.0)
+    parser.add_argument(&#39;-ur&#39;, &#39;--radius-user&#39;, type=float, metavar=&#39;RADIUS&#39;,
+                        help=&#39;Distribution radius of users in the cell in meters&#39;,
+                        default=15.0)
+    parser.add_argument(&#39;-uh&#39;, &#39;--uav-height-mean&#39;, type=float, metavar=&#39;MEAN&#39;,
+                        help=&#39;Average UAV flight height&#39;,
+                        default=20.0)
+    parser.add_argument(&#39;-t1&#39;, &#39;--target-rate-primary-user&#39;, type=float, metavar=&#39;RATE&#39;,
+                        help=&#39;Target rate bits/s/Hertz  primary user&#39;,
+                        default=0.5)
+    parser.add_argument(&#39;-t2&#39;, &#39;--target-rate-secondary-user&#39;, type=float, metavar=&#39;RATE&#39;,
+                        help=&#39;Target rate bits/s/Hertz  secondary user&#39;,
+                        default=0.5)
+    parser.add_argument(&#39;-hi&#39;, &#39;--hardw-ip&#39;, type=float, metavar=&#39;COEFF&#39;,
+                        help=&#39;Residual Hardware Impairments coefficient, 0 &lt;= COEFF &lt;=1&#39;,
+                        default=0.1)
+    parser.add_argument(&#39;-si&#39;, &#39;--sic-ip&#39;, type=float, metavar=&#39;COEFF&#39;,
+                        help=&#39;Residual Imperfect SIC coefficient, 0 &lt;= COEFF &lt;=1&#39;,
+                        default=0.1)
+    parser.add_argument(&#39;-p1&#39;, &#39;--power-coeff-primary&#39;, type=float, metavar=&#39;COEFF&#39;,
+                        help=&#39;The value of power coefficient allocation of the Primary User&#39;,
+                        default=0.8)
+    parser.add_argument(&#39;-p2&#39;, &#39;--power-coeff-secondary&#39;, type=float, metavar=&#39;COEFF&#39;,
+                        help=&#39;The value of power coefficient allocation of the Secondary User&#39;,
+                        default=0.2)
+    parser.add_argument(&#39;--snr-min&#39;, type=float, metavar=&#39;SNR_MIN&#39;,
+                        help=&#39;Minimum / starting SNR in dB&#39;,
+                        default=10)
+    parser.add_argument(&#39;--snr-max&#39;, type=float, metavar=&#39;SNR_MAX&#39;,
+                        help=&#39;Maximum / finishing SNR in dB&#39;,
+                        default=60)
+    parser.add_argument(&#39;--snr-samples&#39;, type=int, metavar=&#39;NUM&#39;,
+                        help=&#39;Number of SNR samples between SNR_MIN and SNR_MAX&#39;,
+                        default=26)
+    parser.add_argument(&#39;--seed&#39;, type=int, metavar=&#34;SEED&#34;,
+                        help=&#34;Seed for pseudo-random number generator&#34;,
+                        default = None)
+    parser.add_argument(&#39;-o&#39;, &#39;--output&#39;, type=str, metavar=&#39;FILE&#39;,
+                        help=&#39;CSV file where to save simulation data&#39;,
+                        default=None)
+    parser.add_argument(&#39;--plot&#39;, action=&#39;store_true&#39;,
+                        help=&#39;Plot the values of the achievable rate and outage probability&#39;,
+                        default=False)
+    parser.add_argument(&#39;--no-print&#39;, action=&#39;store_true&#39;,
+                        help=&#39;Do not print results to terminal&#39;,
+                        default=False)
+
+    # Unused arguments for now
+    parser.add_argument(&#39;--number-uav&#39;, type=int, metavar=&#39;NUM&#39;,
+                        help=argparse.SUPPRESS, # &#39;Number of UAV must be 1&#39;,
+                        default=1)
+    parser.add_argument(&#39;--number-user&#39;, type=int, metavar=&#39;NUM&#39;,
+                        help=argparse.SUPPRESS, # &#39;Number of users must be 2&#39;,
+                        default=2)
+
+    # Parse command line arguments
+    args = parser.parse_args()
+    args = uavnoma.validation(args)
+
+    # Initialization of some auxiliary arrays
+    snr_dB = np.linspace(args.snr_min, args.snr_max, args.snr_samples) # SNR in dB
+    snr_linear = 10.0 ** (snr_dB / 10.0)  # SNR linear
+    out_probability_system = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+    out_probability_secondary_user = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+    out_probability_primary_user = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+    system_average_rate = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+    rate_secondary_user = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+    rate_primary_user = np.zeros((args.monte_carlo_samples, len(snr_dB)))
+
+
+    # ------------------------------------------------------------------------------------ 
+
+    for mc in range(args.monte_carlo_samples):
+        # Position UAV and users
+        uav_axis_x, uav_axis_y, uav_height = uavnoma.random_position_uav(args.number_uav,
+                                                                        args.radius_uav,
+                                                                        args.uav_height_mean)
+
+        user_axis_x, user_axis_y = uavnoma.random_position_users(args.number_user,
+                                                                args.radius_user)
+
+        s, sigma = uavnoma.fading_rician(args.rician_factor, args.power_los)
+
+        # Generate channel gains
+        channel_gain_primary, channel_gain_secondary =  uavnoma.generate_channel(
+            s,
+            sigma,
+            args.number_user,
+            user_axis_x,
+            user_axis_y,
+            uav_axis_x,
+            uav_axis_y,
+            uav_height,
+            args.path_loss,
+        )
+
+        # Analyzes system performance metrics for various SNR values
+        for sn in range(0, len(snr_dB)):
+
+            # Calculating achievable rate of primary user
+            rate_primary_user[mc, sn] = uavnoma.calculate_instantaneous_rate_primary(
+                channel_gain_primary,
+                snr_linear[sn],
+                args.power_coeff_primary,
+                args.power_coeff_secondary,
+                args.hardw_ip,
+            )
+            # Calculating achievable rate of secondary user
+            rate_secondary_user[mc, sn] = uavnoma.calculate_instantaneous_rate_secondary(
+                channel_gain_secondary,
+                snr_linear[sn],
+                args.power_coeff_secondary,
+                args.power_coeff_primary,
+                args.hardw_ip,
+                args.sic_ip,
+            )
+
+            system_average_rate[mc, sn] = uavnoma.average_rate(rate_primary_user[mc, sn],
+                                                            rate_secondary_user[mc, sn])
+
+            # Calculating of outage probability of the system
+            out_probability_system[mc, sn], out_probability_primary_user[mc,sn], out_probability_secondary_user[mc, sn] = uavnoma.outage_probability(
+                rate_primary_user[mc, sn],
+                rate_secondary_user[mc, sn],
+                args.target_rate_primary_user,
+                args.target_rate_secondary_user,
+            )
+
+    ## Outage Probability
+
+    # Outage probability of the System
+    out_prob_mean = np.mean(out_probability_system, axis=0)
+
+    # Outage probability of the Primary User
+    out_prob_primary = np.mean(out_probability_primary_user, axis=0)
+
+    # Outage probability of the Secondary User
+    out_prob_secondary = np.mean(out_probability_secondary_user, axis=0)
+
+    ## Achievable Rate
+
+    # Average achievable rate of the system
+    average_rate_mean = np.mean(system_average_rate, axis=0)
+
+    # Average achievable rate of the Primary User
+    rate_mean_primary_user = np.mean(rate_primary_user, axis=0)
+
+    # Average achievable rate of the Secondary User
+    rate_mean_secondary_user = np.mean(rate_secondary_user, axis=0)
+
+
+    # Put all mean data into a numpy matrix / table
+    all_data_np = np.c_[ snr_dB, out_prob_mean, out_prob_primary, out_prob_secondary,
+                        average_rate_mean, rate_mean_primary_user, rate_mean_secondary_user]
+
+    # Convert numpy matrix to Pandas dataframe with column names
+    all_data_df = pd.DataFrame(all_data_np,
+                            columns = [&#39;snr_dB&#39;, &#39;p_outage_sys&#39;, &#39;p_outage_usr1&#39;,
+                                        &#39;p_outage_usr2&#39;, &#39;avg_arate_sys&#39;,
+                                        &#39;avg_arate_usr1&#39;, &#39;avg_arate_usr2&#39; ])
+
+    # Print to screen, except if --no-print option was specified
+    if not args.no_print:
+        print(tab.tabulate(all_data_df, tablefmt=&#39;psql&#39;, showindex=False,
+                        headers=[&#39;SNR\n(dB)&#39;, &#39;Outage\nprobability\nSystem&#39;,
+                                    &#39;Outage\nprobability\nPrimary user&#39;,
+                                    &#39;Outage\nprobability\nSecondary user&#39;,
+                                    &#39;Average\nachievable rate\nSystem&#39;,
+                                    &#39;Average\nachievable rate\nPrimary User&#39;,
+                                    &#39;Average\nachievable rate\nSecondary User&#39;]))
+
+    # Save results to file if a filename was specified
+    if args.output != None:
+        all_data_df.to_csv(args.output, index=False)
+
+    # Plot simulation results if --plot option was given
+    if args.plot:
+
+        # Outage probability
+        plt.semilogy(snr_dB, out_prob_primary, &#34;b.-&#34;, label=&#34;Primary user&#34;, linewidth=1)
+        plt.semilogy(snr_dB, out_prob_secondary, &#34;r.-&#34;, label=&#34;Secondary user&#34;, linewidth=1)
+        plt.xlabel(&#34;SNR (dB)&#34;)
+        plt.ylabel(&#34;Outage Probability&#34;)
+        plt.legend(loc=&#34;lower left&#34;)
+
+        # Determine the highest index of the outage probability arrays containing values &gt; 0
+        i_max = len(snr_dB) - 1
+        for i in range(len(snr_dB) - 1, 0, -1):
+            if out_prob_primary[i] == 0 and out_prob_secondary[i] == 0:
+                i_max = i
+            else:
+                break
+
+        # Adjust plot
+        plt.xlim(args.snr_min, snr_dB[i_max])
+
+        # Average Achievable Rate of the users
+        plt.figure()
+        plt.plot(snr_dB, rate_mean_primary_user, &#34;b.-&#34;, label=&#34;primary user&#34;, linewidth=1)
+        plt.plot(snr_dB, rate_mean_secondary_user, &#34;r.-&#34;, label=&#34;secondary user&#34;, linewidth=1)
+        plt.xlabel(&#34;SNR (dB)&#34;)
+        plt.ylabel(&#34;Achievable rate (bits/s/Hz)&#34;)
+        plt.legend(loc=&#34;upper left&#34;)
+        plt.xlim(args.snr_min, args.snr_max)
+
+        plt.show()</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="uavnoma" href="index.html">uavnoma</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="uavnoma.command_line.main" href="#uavnoma.command_line.main">main</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

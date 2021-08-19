@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>uavnoma.performance_metrics API documentation</title>
 <meta name="description" content="This module contains script to calculate performance metrics: achievable rate and outage probability ." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -27,9 +27,8 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34; 
+<pre><code class="python">&#34;&#34;&#34;
     This module contains script to calculate performance metrics: achievable rate and outage probability .
-   
 &#34;&#34;&#34;
 
 import numpy as np
@@ -92,13 +91,13 @@ def calculate_instantaneous_rate_secondary(channelSec, snrValues, powerSecondary
 
         hardw_ip -- hardware impairments coefficient.
 
-        sic_ip -- imperfect SIC coefficient. 
+        sic_ip -- imperfect SIC coefficient.
 
     Return:
 
         inst_rate_secondary -- instantaneous achievable rate of the secondary user.
     &#34;&#34;&#34;
-        
+
     sinr_secondary = ( snrValues * channelSec * powerSecondary ) / (
         snrValues * channelSec * ( powerPrimary*sic_ip + hardw_ip**2 ) + 1
     )
@@ -119,7 +118,7 @@ def average_rate(instantaneous_rate_primary,  instantaneous_rate_secondary):
 
     Return:
 
-        avr_rate -- averagre achievable rate in bits/s/Hz
+        avr_rate -- average achievable rate in bits/s/Hz
     &#34;&#34;&#34;
     # Calculating of average achievable rate of the system
     avr_rate = (
@@ -130,9 +129,9 @@ def average_rate(instantaneous_rate_primary,  instantaneous_rate_secondary):
     return  avr_rate
 
 def outage_probability(
-    instantaneous_rate_primary, 
-    instantaneous_rate_secondary, 
-    target_rate_primary_user, 
+    instantaneous_rate_primary,
+    instantaneous_rate_secondary,
+    target_rate_primary_user,
     target_rate_secondary_user,
     ):
     &#34;&#34;&#34;Returns the outage probability for the system, primary user, and secondary user
@@ -146,7 +145,7 @@ def outage_probability(
 
     Return:
 
-        avr_rate -- averagre achievable rate in bits/s/Hz
+        avr_rate -- average achievable rate in bits/s/Hz
     &#34;&#34;&#34;
 
     if (instantaneous_rate_primary &lt; target_rate_primary_user) or (
@@ -187,7 +186,7 @@ def outage_probability(
 <p>instantaneous_rate_primary &ndash; instantaneous achievable rate of the primary user.</p>
 <p>instantaneous_rate_secondary &ndash; instantaneous achievable rate of the secondary user.</p>
 <h2 id="return">Return</h2>
-<p>avr_rate &ndash; averagre achievable rate in bits/s/Hz</p></div>
+<p>avr_rate &ndash; average achievable rate in bits/s/Hz</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -203,7 +202,7 @@ def outage_probability(
 
     Return:
 
-        avr_rate -- averagre achievable rate in bits/s/Hz
+        avr_rate -- average achievable rate in bits/s/Hz
     &#34;&#34;&#34;
     # Calculating of average achievable rate of the system
     avr_rate = (
@@ -286,7 +285,7 @@ power coefficient allocated to the Secondary user.</p>
 power coefficient allocated to the Secondary user.</p>
 <p>powerPrimary &ndash; power coefficient allocated to the Primary user.</p>
 <p>hardw_ip &ndash; hardware impairments coefficient.</p>
-<p>sic_ip &ndash; imperfect SIC coefficient. </p>
+<p>sic_ip &ndash; imperfect SIC coefficient.</p>
 <h2 id="return">Return</h2>
 <p>inst_rate_secondary &ndash; instantaneous achievable rate of the secondary user.</p></div>
 <details class="source">
@@ -313,13 +312,13 @@ power coefficient allocated to the Secondary user.</p>
 
         hardw_ip -- hardware impairments coefficient.
 
-        sic_ip -- imperfect SIC coefficient. 
+        sic_ip -- imperfect SIC coefficient.
 
     Return:
 
         inst_rate_secondary -- instantaneous achievable rate of the secondary user.
     &#34;&#34;&#34;
-        
+
     sinr_secondary = ( snrValues * channelSec * powerSecondary ) / (
         snrValues * channelSec * ( powerPrimary*sic_ip + hardw_ip**2 ) + 1
     )
@@ -340,15 +339,15 @@ for SNR value in linear.</p>
 <p>instantaneous_rate_primary &ndash; instantaneous achievable rate of the primary user.</p>
 <p>instantaneous_rate_secondary &ndash; instantaneous achievable rate of the secondary user.</p>
 <h2 id="return">Return</h2>
-<p>avr_rate &ndash; averagre achievable rate in bits/s/Hz</p></div>
+<p>avr_rate &ndash; average achievable rate in bits/s/Hz</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def outage_probability(
-    instantaneous_rate_primary, 
-    instantaneous_rate_secondary, 
-    target_rate_primary_user, 
+    instantaneous_rate_primary,
+    instantaneous_rate_secondary,
+    target_rate_primary_user,
     target_rate_secondary_user,
     ):
     &#34;&#34;&#34;Returns the outage probability for the system, primary user, and secondary user
@@ -362,7 +361,7 @@ for SNR value in linear.</p>
 
     Return:
 
-        avr_rate -- averagre achievable rate in bits/s/Hz
+        avr_rate -- average achievable rate in bits/s/Hz
     &#34;&#34;&#34;
 
     if (instantaneous_rate_primary &lt; target_rate_primary_user) or (
@@ -415,7 +414,7 @@ for SNR value in linear.</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>

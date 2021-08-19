@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>uavnoma.generate_values API documentation</title>
 <meta name="description" content="This module contains functions to generate simulation parameters." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -27,25 +27,22 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34; 
+<pre><code class="python">&#34;&#34;&#34;
     This module contains functions to generate simulation parameters.
-   
-&#34;&#34;&#34;
 
+&#34;&#34;&#34;
 
 import numpy as np
 from numpy import sqrt
 import math
 
-
-
 def __init__():
     pass
 
-def random_position_uav(number_UAV, radius_UAV, uav_heigth):
+def random_position_uav(number_UAV, radius_UAV, uav_height):
     &#34;&#34;&#34;Returns a random UAV position based on 3D Cartesian coordinates.
 
-            x_r: x-axis | y_r: y-axis | z_r: heigth
+            x_r: x-axis | y_r: y-axis | z_r: height
 
     `theta_r:` randomly generates an angle
 
@@ -59,17 +56,17 @@ def random_position_uav(number_UAV, radius_UAV, uav_heigth):
 
         radius_UAV -- flight trajectory of the UAV in meters.
 
-        uav_heigth -- average flight height
+        uav_height -- average flight height
 
     Return:
 
-        x_r, y_r, z_r -- position in the x-axis, y-axis and heigth of the UAV.
+        x_r, y_r, z_r -- position in the x-axis, y-axis and height of the UAV.
     &#34;&#34;&#34;
     theta_r = np.random.rand(number_UAV, 1) * (math.pi * 2)
     rho_r = radius_UAV
     x_r = rho_r * np.cos(theta_r)
     y_r = rho_r * np.sin(theta_r)
-    z_r = np.random.uniform(uav_heigth - 5.0, uav_heigth + 5.0)
+    z_r = np.random.uniform(uav_height - 5.0, uav_height + 5.0)
     return x_r, y_r, z_r
 
 def random_position_users(number_users, radiusUser):
@@ -103,18 +100,16 @@ def fading_rician(K, P_los):
 
     Arguments:
 
-        K -- rician factor.
-        
-        P_los -- power of Line-of-Sigth path &amp; scattered paths.
-    
+        K -- Rician factor.
+
+        P_los -- power of line-of-sight path and scattered paths.
+
     Return:
         s, sigma -- mean and standard deviation to model fading from the Rician distribution.
     &#34;&#34;&#34;
     # Fading modeled by Rician distribution
     s = np.sqrt(K / (K + 1) * P_los)  # Non-Centrality Parameter (mean)
-    assert s &gt;= 0  # Non-negative
     sigma = P_los / np.sqrt(2 * (K + 1))  # Standard deviation
-    assert s &gt;= 0  # Non-negative
     return s, sigma
 
 def generate_channel(
@@ -153,7 +148,7 @@ def generate_channel(
 
         uav_Y -- position axis y of UAV.
 
-        uav_z -- UAV heigth.
+        uav_z -- UAV height.
 
         path_loss -- path loss exponent.
 
@@ -167,9 +162,10 @@ def generate_channel(
     # Initializing auxiliary arrays to store channel coefficients and distance between UAV and users, respectively:
     h_n = np.zeros(number_user)
     distance = np.zeros(number_user)
-    
+
     for uu in range(number_user):
 
+        # Generate small scale fading according to Rician Distribution
         small_scale_fading = np.sqrt(
             (np.random.normal(s, sigma) ** 2)
             + 1j * (np.random.normal(0, sigma) ** 2)
@@ -179,20 +175,16 @@ def generate_channel(
             (user_X[uu] - uav_X) ** 2 + (user_Y[uu] - uav_Y) ** 2 + uav_Z ** 2
         )
         # Generate path loss atenuation
-        large_scale_fading = sqrt((distance[uu])**(- path_loss))
-        
+        large_scale_fading = sqrt( (distance[uu])**( path_loss))
+
         # Generate channel coefficients
         h_n[uu] = (
-            np.abs(small_scale_fading * large_scale_fading )
+            np.abs(small_scale_fading / large_scale_fading )
             ** 2
         )
-       
 
-    #channelGain = sorted(h_n, reverse=True)
     channel_primary = np.min(h_n)
     channel_secondary = np.max(h_n)
-    #print(&#39;pri&#39;, channel_primary)
-    #print(&#39;sec&#39;, channel_secondary)
 
     return channel_primary, channel_secondary</code></pre>
 </details>
@@ -210,8 +202,8 @@ def generate_channel(
 <dd>
 <div class="desc"><p>Returns the mean and standard deviation to model fading from the Rician distribution.</p>
 <h2 id="arguments">Arguments</h2>
-<p>K &ndash; rician factor.</p>
-<p>P_los &ndash; power of Line-of-Sigth path &amp; scattered paths.</p>
+<p>K &ndash; Rician factor.</p>
+<p>P_los &ndash; power of line-of-sight path and scattered paths.</p>
 <h2 id="return">Return</h2>
 <p>s, sigma &ndash; mean and standard deviation to model fading from the Rician distribution.</p></div>
 <details class="source">
@@ -223,18 +215,16 @@ def generate_channel(
 
     Arguments:
 
-        K -- rician factor.
-        
-        P_los -- power of Line-of-Sigth path &amp; scattered paths.
-    
+        K -- Rician factor.
+
+        P_los -- power of line-of-sight path and scattered paths.
+
     Return:
         s, sigma -- mean and standard deviation to model fading from the Rician distribution.
     &#34;&#34;&#34;
     # Fading modeled by Rician distribution
     s = np.sqrt(K / (K + 1) * P_los)  # Non-Centrality Parameter (mean)
-    assert s &gt;= 0  # Non-negative
     sigma = P_los / np.sqrt(2 * (K + 1))  # Standard deviation
-    assert s &gt;= 0  # Non-negative
     return s, sigma</code></pre>
 </details>
 </dd>
@@ -263,7 +253,7 @@ Secondary user:  channelGain[1] -&gt; max value
 <p>user_Y &ndash; position axis y of n-th user.</p>
 <p>uav_X &ndash; position axis x of UAV.</p>
 <p>uav_Y &ndash; position axis y of UAV.</p>
-<p>uav_z &ndash; UAV heigth.</p>
+<p>uav_z &ndash; UAV height.</p>
 <p>path_loss &ndash; path loss exponent.</p>
 <h2 id="return">Return</h2>
 <p>channel_primary &ndash;
@@ -310,7 +300,7 @@ channel gain of the secondary user.</p></div>
 
         uav_Y -- position axis y of UAV.
 
-        uav_z -- UAV heigth.
+        uav_z -- UAV height.
 
         path_loss -- path loss exponent.
 
@@ -324,9 +314,10 @@ channel gain of the secondary user.</p></div>
     # Initializing auxiliary arrays to store channel coefficients and distance between UAV and users, respectively:
     h_n = np.zeros(number_user)
     distance = np.zeros(number_user)
-    
+
     for uu in range(number_user):
 
+        # Generate small scale fading according to Rician Distribution
         small_scale_fading = np.sqrt(
             (np.random.normal(s, sigma) ** 2)
             + 1j * (np.random.normal(0, sigma) ** 2)
@@ -336,30 +327,26 @@ channel gain of the secondary user.</p></div>
             (user_X[uu] - uav_X) ** 2 + (user_Y[uu] - uav_Y) ** 2 + uav_Z ** 2
         )
         # Generate path loss atenuation
-        large_scale_fading = sqrt((distance[uu])**(- path_loss))
-        
+        large_scale_fading = sqrt( (distance[uu])**( path_loss))
+
         # Generate channel coefficients
         h_n[uu] = (
-            np.abs(small_scale_fading * large_scale_fading )
+            np.abs(small_scale_fading / large_scale_fading )
             ** 2
         )
-       
 
-    #channelGain = sorted(h_n, reverse=True)
     channel_primary = np.min(h_n)
     channel_secondary = np.max(h_n)
-    #print(&#39;pri&#39;, channel_primary)
-    #print(&#39;sec&#39;, channel_secondary)
 
     return channel_primary, channel_secondary</code></pre>
 </details>
 </dd>
 <dt id="uavnoma.generate_values.random_position_uav"><code class="name flex">
-<span>def <span class="ident">random_position_uav</span></span>(<span>number_UAV, radius_UAV, uav_heigth)</span>
+<span>def <span class="ident">random_position_uav</span></span>(<span>number_UAV, radius_UAV, uav_height)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns a random UAV position based on 3D Cartesian coordinates.</p>
-<pre><code>    x_r: x-axis | y_r: y-axis | z_r: heigth
+<pre><code>    x_r: x-axis | y_r: y-axis | z_r: height
 </code></pre>
 <p><code>theta_r:</code> randomly generates an angle</p>
 <p><code>rho_r:</code> radius in meter of flight trajectory UAV</p>
@@ -367,17 +354,17 @@ channel gain of the secondary user.</p></div>
 <h2 id="arguments">Arguments</h2>
 <p>number_UAV &ndash; number of UAV.</p>
 <p>radius_UAV &ndash; flight trajectory of the UAV in meters.</p>
-<p>uav_heigth &ndash; average flight height</p>
+<p>uav_height &ndash; average flight height</p>
 <h2 id="return">Return</h2>
-<p>x_r, y_r, z_r &ndash; position in the x-axis, y-axis and heigth of the UAV.</p></div>
+<p>x_r, y_r, z_r &ndash; position in the x-axis, y-axis and height of the UAV.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def random_position_uav(number_UAV, radius_UAV, uav_heigth):
+<pre><code class="python">def random_position_uav(number_UAV, radius_UAV, uav_height):
     &#34;&#34;&#34;Returns a random UAV position based on 3D Cartesian coordinates.
 
-            x_r: x-axis | y_r: y-axis | z_r: heigth
+            x_r: x-axis | y_r: y-axis | z_r: height
 
     `theta_r:` randomly generates an angle
 
@@ -391,17 +378,17 @@ channel gain of the secondary user.</p></div>
 
         radius_UAV -- flight trajectory of the UAV in meters.
 
-        uav_heigth -- average flight height
+        uav_height -- average flight height
 
     Return:
 
-        x_r, y_r, z_r -- position in the x-axis, y-axis and heigth of the UAV.
+        x_r, y_r, z_r -- position in the x-axis, y-axis and height of the UAV.
     &#34;&#34;&#34;
     theta_r = np.random.rand(number_UAV, 1) * (math.pi * 2)
     rho_r = radius_UAV
     x_r = rho_r * np.cos(theta_r)
     y_r = rho_r * np.sin(theta_r)
-    z_r = np.random.uniform(uav_heigth - 5.0, uav_heigth + 5.0)
+    z_r = np.random.uniform(uav_height - 5.0, uav_height + 5.0)
     return x_r, y_r, z_r</code></pre>
 </details>
 </dd>
@@ -478,7 +465,7 @@ channel gain of the secondary user.</p></div>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>
