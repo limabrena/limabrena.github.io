@@ -6,8 +6,8 @@
 <meta name="generator" content="pdoc 0.10.0" />
 <title>uavnoma API documentation</title>
 <meta name="description" content="A Python 3.8 implementation of a model of wireless communication
-system between an area base station and two users.
-System Model of UAV-NOMA System …" />
+system between an aerial base station and two users.
+System Model of UAV-NOMA …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -25,67 +25,93 @@ System Model of UAV-NOMA System …" />
 </header>
 <section id="section-intro">
 <p>A Python 3.8 implementation of a model of wireless communication
-system between an area base station and two users.</p>
+system between an aerial base station and two users.</p>
 <h1 id="system-model-of-uav-noma-system-with-two-users">System Model of UAV-NOMA System with Two-users</h1>
 <p><a href="https://travis-ci.org/github/limabrena/uavnoma"><img alt="Build Status" src="https://travis-ci.org/limabrena/uavnoma.svg?branch=main"></a>
 <a href="https://app.codecov.io/gh/limabrena/uavnoma"><img alt="codecov" src="https://codecov.io/gh/limabrena/uavnoma/branch/main/graph/badge.svg?token=H5W453JPYU"></a></p>
 <p>A Python 3.8 implementation of the System Model of Unmanned Aerial Vehicle with Non-Orthogonal Multiple Access (UAV-NOMA) System and 2 ground users under considerations of non-ideal conditions, such as imperfect successive interference cancelation (SIC) and residual hardware impairments (RHI). We consider a uplink UAV-aided NOMA network, as illustrated in the figure below.</p>
-<p><img alt="System model." src="https://raw.githubusercontent.com/limabrena/uavnoma/main/figures/uav_system_model_ex.png"></p>
+<p><img alt="System model." src="https://media.githubusercontent.com/media/limabrena/uavnoma/main/figures/uav_system_model_ex.png"></p>
 <h2 id="features">Features</h2>
 <p>The <strong>uavnoma</strong> package allows the user to study the modeling of a UAV-NOMA network and use it as a basis for implementing other technologies. This application can be used as a study tool to understand the behavior of the achievable rate by two users and the influence of the allocation of power coefficients in a UAV-NOMA system under non-ideal conditions. The communication model presented is a base of UAV-NOMA principles and can be expanded to several other scenarios, such as cooperative systems, full-duplex communication,
 and others in order to improve system performance.</p>
 <p>The user can modify parameters and analyze the system's behavior. Based on this, new methods can be proposed to solve UAV trajectory problems, power allocation, user pairing, energy harvesting for UAV maintenance, decoding order and others.</p>
-<p>The package contains functions:</p>
+<p>The package contains functions to:</p>
 <ul>
-<li>To calculate the position of the UAV and users</li>
-<li>To generate the channel gain between UAV and users</li>
-<li>To calculate of the Signal Interference Noise Ratio (SINR)</li>
-<li>To analyze system performance using as metrics the instantaneous achievable rate and outage probability.</li>
+<li>Calculate the position of the UAV and users;</li>
+<li>Generate the channel gain between UAV and users;</li>
+<li>Calculate of the Signal Interference Noise Ratio (SINR);</li>
+<li>Analyze system performance using as metrics the instantaneous achievable rate and outage probability.</li>
 </ul>
+<p>A command line script is also included, allowing for anyone to experiment with the model without knowing or using Python. The user can run a simulation with default parameters using the following command:</p>
+<pre><code>uavnoma
+</code></pre>
+<p>The script is fully parameterizable, and the available parameters can be listed with:</p>
+<pre><code>uavnoma --help
+</code></pre>
 <h2 id="requirements">Requirements</h2>
 <p>The implementation requires Python 3.8+ to run.
-The following libraries are required:</p>
+The following libraries are also required:</p>
 <ul>
 <li><code>numpy</code></li>
 <li><code>matplotlib</code></li>
 <li><code>pandas</code></li>
-<li><code>tabualtes</code></li>
+<li><code>tabulate</code></li>
 <li><code>argparse</code></li>
 </ul>
 <h2 id="how-to-install">How to install</h2>
-<p>To install the <em>uavnoma</em> package, running the following command in the uavnoma project folder:</p>
-<pre><code>$ pip install -e .[dev]
+<h3 id="from-pypi">From PyPI</h3>
+<pre><code>pip install uavnoma
 </code></pre>
-<p>This way, the package is installed in development mode. As a result, the pytest dependencies/plugins are installed.</p>
-<h3 id="from-github">From GitHub</h3>
-<pre><code>$ git clone https://github.com/limabrena/uavnoma.git
+<h3 id="from-sourcegithub">From source/GitHub</h3>
+<p>Directly using pip:</p>
+<pre><code>pip install git+https://github.com/limabrena/uavnoma.git#egg=uavnoma
 </code></pre>
+<p>Or each step at a time:</p>
+<pre><code>git clone https://github.com/limabrena/uavnoma.git
+cd uavnoma
+pip install .
+</code></pre>
+<h3 id="installing-for-development-andor-improving-the-package">Installing for development and/or improving the package</h3>
+<pre><code>git clone https://github.com/limabrena/uavnoma.git
+cd uavnoma
+pip install -e .[dev]
+</code></pre>
+<p>This way, the package is installed in development mode. As a result, the pytest dependencies/plugins are also installed.</p>
 <h2 id="documentation">Documentation</h2>
 <ul>
 <li><a href="https://limabrena.github.io/uavnoma/docs/index.html"><em>uavnoma</em> package documentation</a></li>
 <li><a href="https://limabrena.github.io/uavnoma/docs/index.html#developers-guide">Developer's guide</a></li>
 <li><a href="https://limabrena.github.io/uavnoma/docs/index.html#scenario-description">Scenario Description</a></li>
-<li><a href="example/uavnoma_tutorial.ipynb">Tutorial for the uavnoma functions</a></li>
 </ul>
 <h2 id="license">License</h2>
 <p><a href="LICENSE.txt">MIT License</a></p>
 <h1 id="developers-guide">Developer's guide</h1>
 <h2 id="how-to-use-this-application">How to use this application?</h2>
-<h3 id="download">Download</h3>
-<p>Cloning the repository via terminal:</p>
-<pre><code>$ git clone https://github.com/limabrena/uavnoma.git
-$ cd uavnoma
+<h3 id="from-pypi_1">From PyPI</h3>
+<pre><code>pip install uavnoma
 </code></pre>
-<p>Download ZIP file directly in my git repository:</p>
-<pre><code>https://github.com/limabrena/uavnoma/archive/main.zip
+<h3 id="from-sourcegithub_1">From source/GitHub</h3>
+<p>Directly using pip:</p>
+<pre><code>pip install git+https://github.com/limabrena/uavnoma.git#egg=uavnoma
 </code></pre>
-<p>The user can simply run it from the downloaded folder, provided the necessary requirements are installed. This is the easiest way for the student to be able to study and modify the system model.</p>
+<p>Or each step at a time:</p>
+<pre><code>git clone https://github.com/limabrena/uavnoma.git
+cd uavnoma
+pip install .
+</code></pre>
+<h3 id="installing-for-development-andor-improving-the-package_1">Installing for development and/or improving the package</h3>
+<pre><code>git clone https://github.com/limabrena/uavnoma.git
+cd uavnoma
+pip install -e .[dev]
+</code></pre>
+<p>This way, the package is installed in development mode. As a result, the pytest dependencies/plugins are also installed.</p>
 <h3 id="usage">Usage</h3>
 <p>After installing the package, to run the script on your terminal simply run the following command:</p>
 <pre><code>$ uavnoma
 </code></pre>
-<p>An example on how to use a package can be seen in the examples folder.
-The folder contains a tutorial file <a href="https://github.com/limabrena/uavnoma/blob/main/example/uavnoma_tutorial.ipynb"><code>uavnoma_tutorial.ipynb</code></a> and an implementation example of an UAV NOMA system using the <em>uavnoma</em> package.</p>
+<p>An example on how to use a package can be seen in the uavnoma folder. The script contains an implementation example of an UAV NOMA system using the <em>uavnoma</em> package. </p>
+<pre><code>$ command_line.py
+</code></pre>
 <h3 id="documentation_1">Documentation</h3>
 <p>Project documentation is generated using <a href="https://pdoc3.github.io/pdoc/">pdoc3</a>. To generate the project documentation, running the following command in the project folder <code><a title="uavnoma" href="#uavnoma">uavnoma</a></code>.</p>
 <pre><code>pdoc3 --html --output-dir docs uavnoma/
@@ -156,7 +182,7 @@ If the Rician Factor <code>K=0</code>, fading is similar to Rayleigh's.</p>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;
    A Python 3.8 implementation of a model of wireless communication
-   system between an area base station and two users.
+   system between an aerial base station and two users.
    .. include:: ../README.md
    .. include:: ../doc/installationguide.md
    .. include:: ../doc/documentation.md
@@ -166,11 +192,14 @@ from .generate_values import fading_rician
 from .generate_values import random_position_uav
 from .generate_values import random_position_users
 from .generate_values import generate_channel
-from .parameters_validation import validation
 from .performance_metrics import calculate_instantaneous_rate_primary
 from .performance_metrics import calculate_instantaneous_rate_secondary
 from .performance_metrics import average_rate
-from .performance_metrics import outage_probability</code></pre>
+from .performance_metrics import outage_probability
+
+__pdoc__ = {}
+__pdoc__[&#34;command_line.main&#34;] = False
+__pdoc__[&#34;command_line.validate&#34;] = False</code></pre>
 </details>
 </section>
 <section>
@@ -178,15 +207,11 @@ from .performance_metrics import outage_probability</code></pre>
 <dl>
 <dt><code class="name"><a title="uavnoma.command_line" href="command_line.html">uavnoma.command_line</a></code></dt>
 <dd>
-<div class="desc"><p>This script performs a simulation of a UAV-NOMA system with two users.</p></div>
+<div class="desc"><p>This script performs a simulation of a UAV-NOMA system with two users …</p></div>
 </dd>
 <dt><code class="name"><a title="uavnoma.generate_values" href="generate_values.html">uavnoma.generate_values</a></code></dt>
 <dd>
 <div class="desc"><p>This module contains functions to generate simulation parameters.</p></div>
-</dd>
-<dt><code class="name"><a title="uavnoma.parameters_validation" href="parameters_validation.html">uavnoma.parameters_validation</a></code></dt>
-<dd>
-<div class="desc"><p>This script performs parameter validation.</p></div>
 </dd>
 <dt><code class="name"><a title="uavnoma.performance_metrics" href="performance_metrics.html">uavnoma.performance_metrics</a></code></dt>
 <dd>
@@ -209,7 +234,9 @@ from .performance_metrics import outage_probability</code></pre>
 <li><a href="#features">Features</a></li>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#how-to-install">How to install</a><ul>
-<li><a href="#from-github">From GitHub</a></li>
+<li><a href="#from-pypi">From PyPI</a></li>
+<li><a href="#from-sourcegithub">From source/GitHub</a></li>
+<li><a href="#installing-for-development-andor-improving-the-package">Installing for development and/or improving the package</a></li>
 </ul>
 </li>
 <li><a href="#documentation">Documentation</a></li>
@@ -218,7 +245,9 @@ from .performance_metrics import outage_probability</code></pre>
 </li>
 <li><a href="#developers-guide">Developer's guide</a><ul>
 <li><a href="#how-to-use-this-application">How to use this application?</a><ul>
-<li><a href="#download">Download</a></li>
+<li><a href="#from-pypi_1">From PyPI</a></li>
+<li><a href="#from-sourcegithub_1">From source/GitHub</a></li>
+<li><a href="#installing-for-development-andor-improving-the-package_1">Installing for development and/or improving the package</a></li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#documentation_1">Documentation</a></li>
 <li><a href="#test">Test</a></li>
@@ -238,7 +267,6 @@ from .performance_metrics import outage_probability</code></pre>
 <ul>
 <li><code><a title="uavnoma.command_line" href="command_line.html">uavnoma.command_line</a></code></li>
 <li><code><a title="uavnoma.generate_values" href="generate_values.html">uavnoma.generate_values</a></code></li>
-<li><code><a title="uavnoma.parameters_validation" href="parameters_validation.html">uavnoma.parameters_validation</a></code></li>
 <li><code><a title="uavnoma.performance_metrics" href="performance_metrics.html">uavnoma.performance_metrics</a></code></li>
 </ul>
 </li>

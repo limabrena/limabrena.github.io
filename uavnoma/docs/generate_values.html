@@ -36,9 +36,6 @@ import numpy as np
 from numpy import sqrt
 import math
 
-def __init__():
-    pass
-
 def random_position_uav(number_UAV, radius_UAV, uav_height):
     &#34;&#34;&#34;Returns a random UAV position based on 3D Cartesian coordinates.
 
@@ -69,6 +66,7 @@ def random_position_uav(number_UAV, radius_UAV, uav_height):
     z_r = np.random.uniform(uav_height - 5.0, uav_height + 5.0)
     return x_r, y_r, z_r
 
+
 def random_position_users(number_users, radiusUser):
     &#34;&#34;&#34;Returns a random ground users position based on 2D Cartesian coordinates.
 
@@ -95,7 +93,8 @@ def random_position_users(number_users, radiusUser):
     y_u = rho_u * np.sin(theta_u)
     return x_u, y_u
 
-def fading_rician(K, P_los):
+
+def fading_rician(K, P_los):  
     &#34;&#34;&#34;Returns the mean and standard deviation to model fading from the Rician distribution.
 
     Arguments:
@@ -107,10 +106,12 @@ def fading_rician(K, P_los):
     Return:
         s, sigma -- mean and standard deviation to model fading from the Rician distribution.
     &#34;&#34;&#34;
+    
     # Fading modeled by Rician distribution
     s = np.sqrt(K / (K + 1) * P_los)  # Non-Centrality Parameter (mean)
     sigma = P_los / np.sqrt(2 * (K + 1))  # Standard deviation
-    return s, sigma
+    return (s, sigma)  
+
 
 def generate_channel(
     s, sigma, number_user, user_X, user_Y, uav_X, uav_Y, uav_Z, path_loss
@@ -210,7 +211,7 @@ def generate_channel(
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def fading_rician(K, P_los):
+<pre><code class="python">def fading_rician(K, P_los):  
     &#34;&#34;&#34;Returns the mean and standard deviation to model fading from the Rician distribution.
 
     Arguments:
@@ -222,10 +223,11 @@ def generate_channel(
     Return:
         s, sigma -- mean and standard deviation to model fading from the Rician distribution.
     &#34;&#34;&#34;
+    
     # Fading modeled by Rician distribution
     s = np.sqrt(K / (K + 1) * P_los)  # Non-Centrality Parameter (mean)
     sigma = P_los / np.sqrt(2 * (K + 1))  # Standard deviation
-    return s, sigma</code></pre>
+    return (s, sigma)  </code></pre>
 </details>
 </dd>
 <dt id="uavnoma.generate_values.generate_channel"><code class="name flex">
